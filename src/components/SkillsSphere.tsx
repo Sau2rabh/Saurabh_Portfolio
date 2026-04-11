@@ -3,6 +3,8 @@
 import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Text, Float, TrackballControls } from "@react-three/drei";
+import { useInView } from "framer-motion";
+import { useDevice } from "@/hooks/useDevice";
 import * as THREE from "three";
 
 const Skill = ({ position, text }: { position: [number, number, number], text: string }) => {
@@ -21,28 +23,29 @@ const Skill = ({ position, text }: { position: [number, number, number], text: s
   );
 };
 
-const SkillCloud = ({ skills }: { skills: string[] }) => {
+const SkillCloud = ({ skills, isMobile }: { skills: string[], isMobile: boolean }) => {
   const groupRef = useRef<THREE.Group>(null);
   
   const positions = useMemo(() => {
     const pos: [number, number, number][] = [];
     const count = skills.length;
+    const radius = isMobile ? 2.5 : 3.5;
     for (let i = 0; i < count; i++) {
       const phi = Math.acos(-1 + (2 * i) / count);
       const theta = Math.sqrt(count * Math.PI) * phi;
       pos.push([
-        3 * Math.sin(phi) * Math.cos(theta),
-        3 * Math.sin(phi) * Math.sin(theta),
-        3 * Math.cos(phi),
+        radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.sin(phi) * Math.sin(theta),
+        radius * Math.cos(phi),
       ]);
     }
     return pos;
-  }, [skills]);
+  }, [skills, isMobile]);
 
   useFrame((state, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.2;
-      groupRef.current.rotation.x += delta * 0.1;
+      groupRef.current.rotation.y += delta * 0.15;
+      groupRef.current.rotation.x += delta * 0.08;
     }
   });
 
@@ -56,16 +59,9 @@ const SkillCloud = ({ skills }: { skills: string[] }) => {
 };
 
 const SkillsSphere = () => {
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, margin: "200px" });
+  const { isMobile, isTablet } = useDevice();
 
   const skills = [
     "React", "Next.js", "Node.js", "Express", 
@@ -75,13 +71,22 @@ const SkillsSphere = () => {
   ];
 
   return (
-    <div className="h-[400px] sm:h-[600px] w-full cursor-grab active:cursor-grabbing">
-      <Canvas camera={{ position: [0, 0, isMobile ? 12 : 10], fov: isMobile ? 45 : 35 }}>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        <SkillCloud skills={skills} />
-        <TrackballControls noZoom />
-      </Canvas>
+    <div 
+      ref={containerRef}
+      className="h-[350px] sm:h-[600px] w-full cursor-grab active:cursor-grabbing flex items-center justify-center overflow-hidden"
+    >
+      {isInView ? (
+        <Canvas camera={{ position: [0, 0, isMobile ? 12 : 10], fov: isMobile ? 45 : 35 }} gl={{ powerPreference: "high-performance" }}>
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} />
+          <SkillCloud skills={skills} isMobile={isMobile} />
+          {!isMobile && <TrackballControls noZoom />}
+        </Canvas>
+      ) : (
+        <div className="w-48 h-48 rounded-full border border-cyan-500/20 flex items-center justify-center animate-pulse">
+          <span className="text-cyan-500/50 text-xs font-mono uppercase tracking-widest">Loading Sphere...</span>
+        </div>
+      )}
     </div>
   );
 };

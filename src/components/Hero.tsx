@@ -4,9 +4,11 @@ import React, { useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { SplineScene } from "@/components/ui/spline-scene";
 import { Spotlight } from "@/components/ui/spotlight";
+import { useDevice } from "@/hooks/useDevice";
 import { Github, Linkedin, Mail, ArrowRight, FileText } from "lucide-react";
 
 const Hero = () => {
+  const { isDesktop } = useDevice();
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
@@ -75,13 +77,15 @@ const Hero = () => {
         <div className="absolute bottom-[10%] -right-[5%] w-[35%] h-[40%] bg-fuchsia-900/10 rounded-full blur-[140px]" />
       </div>
 
-      {/* Robot background layer (Hidden on mobile/tablet for performance) */}
-      <div className="absolute top-0 right-0 w-full lg:w-[60%] h-full z-0 overflow-visible pointer-events-auto hidden lg:flex items-center justify-center lg:translate-x-20">
-        <SplineScene
-          scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-          className="w-full h-full scale-90"
-        />
-      </div>
+      {/* Robot background layer (Mounted only on desktop for performance) */}
+      {isDesktop && (
+        <div className="absolute top-0 right-0 w-full lg:w-[60%] h-full z-0 overflow-visible pointer-events-auto hidden lg:flex items-center justify-center lg:translate-x-20">
+          <SplineScene
+            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            className="w-full h-full scale-90"
+          />
+        </div>
+      )}
 
       <div className="container mx-auto px-6 relative z-10 pointer-events-none">
         <div className="flex flex-col lg:flex-row min-h-[600px] md:min-h-[700px] items-center">
@@ -98,10 +102,10 @@ const Hero = () => {
                 rotateY,
                 transformStyle: "preserve-3d",
               }}
-              className="space-y-6 md:space-y-8 p-6 sm:p-10 md:p-12 rounded-4xl sm:rounded-[2.5rem] border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3),inset_0_0_20px_rgba(255,255,255,0.05)] relative overflow-hidden group transition-all duration-500 md:hover:scale-[1.05] hover:-translate-y-2 hover:shadow-[0_40px_80px_rgba(0,0,0,0.5),inset_0_0_30px_rgba(255,255,255,0.15)]"
+              className="space-y-6 md:space-y-8 p-6 sm:p-10 md:p-12 rounded-4xl sm:rounded-[2.5rem] border border-white/20 bg-white/10 backdrop-blur-md md:backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3),inset_0_0_20px_rgba(255,255,255,0.05)] relative overflow-hidden group transition-all duration-500 md:hover:scale-[1.05] hover:-translate-y-2 hover:shadow-[0_40px_80px_rgba(0,0,0,0.5),inset_0_0_30px_rgba(255,255,255,0.15)]"
             >
-              {/* Premium gradient border glow */}
-              <div className="absolute inset-0 bg-linear-to-br from-cyan-500/0 via-transparent to-purple-500/0 group-hover:from-cyan-500/10 group-hover:to-purple-500/10 transition-all duration-700 pointer-events-none" />
+              {/* Premium gradient border glow (Simplified for mobile) */}
+              <div className="absolute inset-0 bg-linear-to-br from-cyan-500/0 via-transparent to-purple-500/0 md:group-hover:from-cyan-500/10 md:group-hover:to-purple-500/10 transition-all duration-700 pointer-events-none" />
 
               {/* Subtle glass reflection effect (enhanced) */}
               <div className="absolute inset-0 bg-linear-to-br from-white/10 via-transparent to-transparent opacity-50 group-hover:opacity-80 transition-opacity pointer-events-none" />
@@ -151,10 +155,15 @@ const Hero = () => {
                     View My Work
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
-                  <button className="flex items-center justify-center gap-2 px-6 py-3 border border-white/10 bg-transparent text-white font-semibold rounded-xl hover:bg-white/5 transition-all text-sm md:text-base">
+                  <a 
+                    href="https://drive.google.com/file/d/1zSIao5-Njo66JjJwtCzfG5M0yMKeAHzC/view?usp=sharing" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 px-6 py-3 border border-white/10 bg-transparent text-white font-semibold rounded-xl hover:bg-white/5 transition-all text-sm md:text-base cursor-pointer"
+                  >
                     My Resume
                     <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </button>
+                  </a>
                 </div>
 
                 {/* Social Icons Row */}

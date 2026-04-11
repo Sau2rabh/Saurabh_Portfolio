@@ -3,6 +3,7 @@
 import React, { useState, useRef, Suspense, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, Preload } from "@react-three/drei";
+import { useDevice } from "@/hooks/useDevice";
 // @ts-ignore
 import * as random from "maath/random/dist/maath-random.esm";
 
@@ -38,7 +39,9 @@ function buildSphere(count: number): Float32Array {
 
 const StarBackground = (props: any) => {
   const ref = useRef<any>(null);
-  const [sphere] = useState(() => buildSphere(5000));
+  const { isMobile } = useDevice();
+  const starCount = isMobile ? 2000 : 5000;
+  const [sphere] = useState(() => buildSphere(starCount));
   const [ready, setReady] = useState(false);
 
   // Defer mount by one frame so Three.js internals are fully initialised

@@ -93,16 +93,31 @@ const Navbar = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeMobileMenu}
-              className='fixed inset-0 bg-black/60 backdrop-blur-sm z-90 md:hidden'
+              className='fixed inset-0 bg-black/60 backdrop-blur-md z-998 md:hidden'
             />
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className='fixed top-0 right-0 h-full w-[280px] bg-slate-950/95 border-l border-white/10 z-100 md:hidden flex flex-col p-10 pt-24 space-y-8 glass'
+              className='fixed top-0 right-0 h-full w-[300px] bg-[#030014]/95 border-l border-white/10 z-999 md:hidden flex flex-col glass'
             >
-              <div className='flex flex-col space-y-6'>
+              {/* Sidebar Header */}
+              <div className='flex items-center justify-between p-8 border-b border-white/5'>
+                <a href='#' className='text-lg font-bold tracking-wider' onClick={closeMobileMenu}>
+                  <span className='text-white'>Saurabh</span>
+                  <span className='text-cyan-400'>_Portfolio</span>
+                </a>
+                <button 
+                  onClick={closeMobileMenu}
+                  className='p-2 text-white/70 hover:text-cyan-400 transition-colors'
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <div className='flex flex-col space-y-4 p-8 mt-4'>
                 {navLinks.map((link, idx) => (
                   <motion.a
                     key={link.name}
@@ -111,19 +126,24 @@ const Navbar = () => {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.1 + idx * 0.1 }}
                     onClick={closeMobileMenu}
-                    className='text-lg font-mono tracking-widest text-white/80 hover:text-cyan-400 transition-colors'
+                    className='group flex items-baseline py-2'
                   >
-                    <span className='text-cyan-500/50 mr-3 text-xs'>0{idx + 1}.</span>
-                    {link.name}
+                    <span className='text-[10px] font-mono text-cyan-500/60 mr-4 tracking-tighter'>0{idx + 1}</span>
+                    <span className='text-2xl font-semibold tracking-tight text-white/90 group-hover:text-cyan-400 transition-colors'>
+                      {link.name}
+                    </span>
                   </motion.a>
                 ))}
               </div>
 
-              <div className='pt-10 mt-auto border-t border-white/5 flex flex-col space-y-4'>
-                <p className='text-xs text-gray-500 font-mono uppercase tracking-widest'>Get In Touch</p>
-                <a href='mailto:royalking6993@gmail.com' className='text-sm text-cyan-400/80 hover:text-cyan-400 truncate'>
-                  royalking6993@gmail.com
-                </a>
+              {/* Sidebar Footer */}
+              <div className='mt-auto p-8 border-t border-white/5 space-y-6 bg-slate-900/20'>
+                <div className='space-y-2'>
+                  <p className='text-[10px] text-gray-500 font-mono uppercase tracking-[0.2em]'>Get In Touch</p>
+                  <a href='mailto:royalking6993@gmail.com' className='text-sm text-cyan-400/80 hover:text-cyan-500 transition-colors inline-block'>
+                    royalking6993@gmail.com
+                  </a>
+                </div>
               </div>
             </motion.div>
           </>
