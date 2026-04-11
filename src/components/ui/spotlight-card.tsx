@@ -136,11 +136,10 @@ const GlowCard: React.FC<GlowCardProps> = ({
     backgroundPosition: '50% 50%',
     border: 'var(--border-size) solid var(--backup-border)',
     position: 'relative',
-    touchAction: 'none',
     willChange: 'transform, opacity',
     ...(width !== undefined ? { width: typeof width === 'number' ? `${width}px` : width } : {}),
     ...(height !== undefined ? { height: typeof height === 'number' ? `${height}px` : height } : {}),
-  };
+  } as React.CSSProperties & Record<string, string | number>;
 
   return (
     <>
