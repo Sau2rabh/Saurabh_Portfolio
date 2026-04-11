@@ -75,8 +75,8 @@ const Hero = () => {
         <div className="absolute bottom-[10%] -right-[5%] w-[35%] h-[40%] bg-fuchsia-900/10 rounded-full blur-[140px]" />
       </div>
 
-      {/* Robot background layer */}
-      <div className="absolute top-0 right-0 w-full lg:w-[60%] h-full z-0 overflow-visible pointer-events-auto flex items-center justify-center translate-y-10 lg:translate-x-20">
+      {/* Robot background layer (Hidden on mobile/tablet for performance) */}
+      <div className="absolute top-0 right-0 w-full lg:w-[60%] h-full z-0 overflow-visible pointer-events-auto hidden lg:flex items-center justify-center lg:translate-x-20">
         <SplineScene
           scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
           className="w-full h-full scale-90"
@@ -90,7 +90,7 @@ const Hero = () => {
           <div
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="flex-1 p-4 md:p-8 flex flex-col justify-center relative z-20 lg:max-w-[48%] pointer-events-auto lg:-translate-x-12"
+            className="flex-1 p-0 md:p-8 flex flex-col justify-center relative z-20 w-full lg:max-w-[48%] pointer-events-auto lg:-translate-x-12"
           >
             <motion.div
               style={{
@@ -98,7 +98,7 @@ const Hero = () => {
                 rotateY,
                 transformStyle: "preserve-3d",
               }}
-              className="space-y-8 p-10 md:p-12 rounded-[2.5rem] border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3),inset_0_0_20px_rgba(255,255,255,0.05)] relative overflow-hidden group transition-all duration-500 hover:scale-[1.05] hover:-translate-y-2 hover:shadow-[0_40px_80px_rgba(0,0,0,0.5),inset_0_0_30px_rgba(255,255,255,0.15)]"
+              className="space-y-6 md:space-y-8 p-6 sm:p-10 md:p-12 rounded-4xl sm:rounded-[2.5rem] border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3),inset_0_0_20px_rgba(255,255,255,0.05)] relative overflow-hidden group transition-all duration-500 md:hover:scale-[1.05] hover:-translate-y-2 hover:shadow-[0_40px_80px_rgba(0,0,0,0.5),inset_0_0_30px_rgba(255,255,255,0.15)]"
             >
               {/* Premium gradient border glow */}
               <div className="absolute inset-0 bg-linear-to-br from-cyan-500/0 via-transparent to-purple-500/0 group-hover:from-cyan-500/10 group-hover:to-purple-500/10 transition-all duration-700 pointer-events-none" />
@@ -106,17 +106,17 @@ const Hero = () => {
               {/* Subtle glass reflection effect (enhanced) */}
               <div className="absolute inset-0 bg-linear-to-br from-white/10 via-transparent to-transparent opacity-50 group-hover:opacity-80 transition-opacity pointer-events-none" />
 
-              <div className="relative z-10 space-y-8">
+              <div className="relative z-10 space-y-6 md:space-y-8">
                 {/* Badge */}
-                <div className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-mono tracking-tight text-gray-400 uppercase">
+                <div className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[9px] sm:text-[10px] font-mono tracking-tight text-gray-400 uppercase">
                   HELLO, I'M
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <motion.h1
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="text-4xl md:text-6xl font-bold tracking-tight"
+                    className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight"
                   >
                     <span className="bg-clip-text text-transparent bg-linear-to-r from-cyan-400 to-blue-500">
                       Saurabh Anand
@@ -124,41 +124,41 @@ const Hero = () => {
                   </motion.h1>
 
                   {/* Typing Subtitle */}
-                  <div className="text-lg md:text-xl font-mono flex items-center gap-2">
+                  <div className="text-base sm:text-lg md:text-xl font-mono flex flex-wrap items-center gap-x-2">
                     <span className="text-gray-500">I am a</span>
-                    <span className="text-[#3ed5f3] font-medium">
+                    <span className="text-[#3ed5f3] font-medium whitespace-nowrap">
                       {displayText}
-                      <span className="ml-1 border-r-2 border-[#3ed5f3] h-5 inline-block align-middle" />
+                      <span className="ml-1 border-r-2 border-[#3ed5f3] h-4 sm:h-5 inline-block align-middle animate-pulse" />
                     </span>
                   </div>
                 </div>
 
-                <p className="max-w-lg text-gray-400 text-base md:text-lg leading-relaxed">
+                <p className="max-w-lg text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
                   I build <span className="text-white font-medium">scalable, high-performance</span> web applications and turn
                   complex problems into <span className="text-white font-medium">clean, user-focused solutions</span>.
                 </p>
 
                 {/* Primary Buttons */}
-                <div className="flex flex-wrap gap-4 pt-4">
+                <div className="flex flex-col sm:flex-row gap-4 pt-2">
                   <a
                     href="#projects"
                     onClick={(e) => {
                       e.preventDefault();
                       document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-[#3e82f1] to-[#2b59f3] text-white font-semibold rounded-xl hover:opacity-90 transition-all group text-sm md:text-base cursor-pointer"
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-[#3e82f1] to-[#2b59f3] text-white font-semibold rounded-xl hover:opacity-90 transition-all group text-sm md:text-base cursor-pointer"
                   >
                     View My Work
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
-                  <button className="flex items-center gap-2 px-6 py-3 border border-white/10 bg-transparent text-white font-semibold rounded-xl hover:bg-white/5 transition-all text-sm md:text-base">
+                  <button className="flex items-center justify-center gap-2 px-6 py-3 border border-white/10 bg-transparent text-white font-semibold rounded-xl hover:bg-white/5 transition-all text-sm md:text-base">
                     My Resume
-                    <FileText className="w-5 h-5" />
+                    <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                 </div>
 
                 {/* Social Icons Row */}
-                <div className="flex gap-6 pt-6 text-gray-600">
+                <div className="flex gap-6 pt-4 text-gray-600">
                   <a href="https://github.com/Sau2rabh" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Github className="w-5 h-5" /></a>
                   <a href="https://www.linkedin.com/in/saurabh-anand-113271249/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Linkedin className="w-5 h-5" /></a>
                   <a

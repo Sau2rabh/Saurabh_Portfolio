@@ -116,9 +116,26 @@ export default function RadialOrbitalTimeline({
     setRotationAngle(270 - targetAngle);
   };
 
+  const [radius, setRadius] = useState<number>(250);
+
+  useEffect(() => {
+    const updateRadius = () => {
+      if (window.innerWidth < 480) {
+        setRadius(130);
+      } else if (window.innerWidth < 768) {
+        setRadius(180);
+      } else {
+        setRadius(250);
+      }
+    };
+
+    updateRadius();
+    window.addEventListener("resize", updateRadius);
+    return () => window.removeEventListener("resize", updateRadius);
+  }, []);
+
   const calculateNodePosition = (index: number, total: number) => {
     const angle = ((index / total) * 360 + rotationAngle) % 360;
-    const radius = 250;
     const radian = (angle * Math.PI) / 180;
 
     const x = radius * Math.cos(radian) + centerOffset.x;
@@ -183,7 +200,10 @@ export default function RadialOrbitalTimeline({
             <div className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md"></div>
           </div>
 
-          <div className="absolute w-[500px] h-[500px] rounded-full border border-white/10"></div>
+          <div 
+            className="absolute rounded-full border border-white/10"
+            style={{ width: `${radius * 2}px`, height: `${radius * 2}px` }}
+          ></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
@@ -251,10 +271,10 @@ export default function RadialOrbitalTimeline({
 
                 <div
                   className={`
-                  absolute top-12 left-1/2 -translate-x-1/2 whitespace-nowrap
+                  absolute left-1/2 -translate-x-1/2 whitespace-nowrap
                   text-[10px] font-semibold tracking-wider
-                  transition-all duration-300
-                  ${isExpanded ? "text-white scale-125" : "text-white/70"}
+                  transition-all duration-300 z-10 drop-shadow-md
+                  ${isExpanded ? "text-white scale-125 top-16" : "text-white/70 top-12"}
                 `}
                 >
                   {item.title}

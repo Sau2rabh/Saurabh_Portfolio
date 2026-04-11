@@ -56,6 +56,17 @@ const SkillCloud = ({ skills }: { skills: string[] }) => {
 };
 
 const SkillsSphere = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const skills = [
     "React", "Next.js", "Node.js", "Express", 
     "MongoDB", "MySQL", "Python", "AI/ML",
@@ -64,8 +75,8 @@ const SkillsSphere = () => {
   ];
 
   return (
-    <div className="h-[600px] w-full">
-      <Canvas camera={{ position: [0, 0, 10], fov: 35 }}>
+    <div className="h-[400px] sm:h-[600px] w-full cursor-grab active:cursor-grabbing">
+      <Canvas camera={{ position: [0, 0, isMobile ? 12 : 10], fov: isMobile ? 45 : 35 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
         <SkillCloud skills={skills} />

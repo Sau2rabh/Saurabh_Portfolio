@@ -91,20 +91,20 @@ Always answer questions concisely, professionally, and creatively based on this 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-90 backdrop-blur-md bg-black/30 transition-all duration-300"
+            className="fixed inset-0 z-110 backdrop-blur-md bg-black/30 transition-all duration-300"
             onClick={() => setIsOpen(false)}
           />
         )}
       </AnimatePresence>
 
-      <div className="fixed bottom-8 right-8 z-100">
+      <div className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-120">
         <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="mb-4 w-[350px] md:w-[400px] h-[500px] glass rounded-3xl border-cyan-400/30 flex flex-col overflow-hidden shadow-[0_0_50px_rgba(34,211,238,0.2)]"
+            className="mb-4 w-[calc(100vw-3rem)] sm:w-[350px] md:w-[400px] h-[450px] sm:h-[500px] glass rounded-3xl border-cyan-400/30 flex flex-col overflow-hidden shadow-[0_0_50px_rgba(34,211,238,0.2)]"
           >
             {/* Header */}
             <div className="p-4 border-b border-white/10 flex items-center justify-between bg-cyan-500/5">
@@ -140,7 +140,7 @@ Always answer questions concisely, professionally, and creatively based on this 
                   animate={{ opacity: 1, x: 0 }}
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
-                  <div className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
+                  <div className={`max-w-[85%] sm:max-w-[80%] p-3 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === "user" 
                       ? "bg-cyan-500 text-black font-medium" 
                       : "glass border-white/5 text-gray-200"
@@ -155,9 +155,9 @@ Always answer questions concisely, professionally, and creatively based on this 
                   animate={{ opacity: 1, x: 0 }}
                   className="flex justify-start"
                 >
-                  <div className="max-w-[80%] p-3 rounded-2xl text-sm glass border-white/5 text-gray-200 flex items-center space-x-2">
+                  <div className="max-w-[80%] p-3 rounded-2xl text-xs glass border-white/5 text-gray-200 flex items-center space-x-2">
                     <Loader2 size={14} className="animate-spin text-cyan-400" />
-                    <span className="text-gray-400 italic font-mono text-xs">Analyzing...</span>
+                    <span className="text-gray-400 italic font-mono text-[10px] sm:text-xs">Analyzing...</span>
                   </div>
                 </motion.div>
               )}
@@ -172,11 +172,11 @@ Always answer questions concisely, professionally, and creatively based on this 
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSend()}
                   placeholder="Ask me anything..."
-                  className="w-full bg-slate-900/50 border border-white/10 rounded-full py-2.5 pl-4 pr-12 text-sm focus:outline-none focus:border-cyan-500/50 transition-colors"
+                  className="w-full bg-slate-900/50 border border-white/10 rounded-full py-2 sm:py-2.5 pl-4 pr-12 text-xs sm:text-sm focus:outline-none focus:border-cyan-500/50 transition-colors"
                 />
                 <button 
                   onClick={handleSend}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-cyan-500 rounded-full text-black hover:bg-cyan-400 transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 sm:p-1.5 bg-cyan-500 rounded-full text-black hover:bg-cyan-400 transition-colors"
                 >
                   <Send size={16} />
                 </button>
@@ -190,7 +190,7 @@ Always answer questions concisely, professionally, and creatively based on this 
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all ${
+        className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all ${
           isOpen ? "bg-red-500 rotate-90" : "bg-cyan-500"
         }`}
       >

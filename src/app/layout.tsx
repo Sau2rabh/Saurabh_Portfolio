@@ -11,6 +11,7 @@ import ConsoleCleaner from "@/components/ConsoleCleaner";
 const inter = Inter({ subsets: ["latin"], preload: false });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://saurabh-portfolio-v2.vercel.app'),
   title: "Saurabh Anand | Full Stack Developer & AI Enthusiast",
   description: "Futuristic 3D portfolio of Saurabh Anand, a passionate Frontend Developer, QA Associate, and AI enthusiast. Explore my featured projects like Smart AI Health Predictor and Velora E-Commerce.",
   keywords: ["Saurabh Anand", "Saurabh Anand Portfolio", "Full Stack Developer", "Next.js", "React", "AI", "Frontend Developer", "Web Developer", "Software Engineer"],

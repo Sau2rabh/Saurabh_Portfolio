@@ -109,12 +109,13 @@ const Projects = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.35 }}
+              className="flex h-full"
             >
               {/* ── GlowCard wraps each project card ── */}
               <GlowCard
                 customSize
                 glowColor={project.glowColor}
-                className="w-full flex flex-col group"
+                className="w-full h-full flex flex-col group"
               >
                 {/* Screenshot */}
                 <div className="relative h-48 overflow-hidden rounded-xl">

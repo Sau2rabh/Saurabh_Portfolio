@@ -31,8 +31,7 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
           scene={scene}
           className={className}
           onLoad={() => {
-            // Delay a bit extra to ensure the "entry zoom" is finished behind the scenes
-            setTimeout(() => setIsLoading(false), 500);
+            setIsLoading(false);
           }}
         />
       </motion.div>

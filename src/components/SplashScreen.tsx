@@ -1,47 +1,48 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, animate, useMotionValue, useTransform } from "framer-motion";
 import { SparklesCore } from "./ui/sparkles";
 
 export default function SplashScreen() {
-  const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const progressValue = useMotionValue(0);
+  const [displayProgress, setDisplayProgress] = useState(0);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
-    const duration = 2500; // 2.5 seconds
-    const interval = 20; // update every 20ms
-    const step = 100 / (duration / interval);
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev + step >= 100) {
-          clearInterval(timer);
-          setTimeout(() => {
-            setIsLoading(false);
-            document.body.style.overflow = "auto";
-          }, 600); // Small pause at 100%
-          return 100;
-        }
-        return prev + step;
-      });
-    }, interval);
+    // Smoothly animate progress from 0 to 100
+    const controls = animate(progressValue, 100, {
+      duration: 1.5,
+      ease: [0.32, 0, 0.24, 1], // Custom smooth ease
+      onUpdate: (latest) => {
+        setDisplayProgress(Math.round(latest));
+      },
+      onComplete: () => {
+        setTimeout(() => {
+          setIsLoading(false);
+          document.body.style.overflow = "auto";
+        }, 200); // Tiny bounce delay for better feel
+      }
+    });
 
     return () => {
-      clearInterval(timer);
+      controls.stop();
       document.body.style.overflow = "auto";
     };
-  }, []);
+  }, [progressValue]);
+
+  // Transform dash offset based on motion value
+  const dashOffset = useTransform(progressValue, [0, 100], [377, 0]);
 
   return (
     <AnimatePresence>
       {isLoading && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-slate-950 overflow-hidden"
         >
           {/* Sparkles Background */}
@@ -82,7 +83,7 @@ export default function SplashScreen() {
                   strokeWidth="4"
                   fill="none"
                   strokeDasharray="377"
-                  strokeDashoffset={377 - (377 * progress) / 100}
+                  style={{ strokeDashoffset: dashOffset }}
                   strokeLinecap="round"
                 />
                 <circle
@@ -99,7 +100,7 @@ export default function SplashScreen() {
 
               {/* Progress Text */}
               <div className="text-white text-3xl font-mono font-bold tracking-tighter shadow-cyan-500/50 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">
-                {Math.round(progress)}
+                {displayProgress}
                 <span className="text-cyan-400 text-xl opacity-80">%</span>
               </div>
             </div>
