@@ -49,6 +49,9 @@ const Hero = () => {
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    // Skip on touch devices to prioritize scroll performance
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
     const rect = e.currentTarget.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
@@ -57,6 +60,7 @@ const Hero = () => {
   };
 
   const handleMouseLeave = () => {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     x.set(0);
     y.set(0);
   };

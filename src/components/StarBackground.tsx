@@ -39,8 +39,8 @@ function buildSphere(count: number): Float32Array {
 
 const StarBackground = (props: any) => {
   const ref = useRef<any>(null);
-  const { isMobile } = useDevice();
-  const starCount = isMobile ? 2000 : 5000;
+  const { isMobile, isTablet } = useDevice();
+  const starCount = (isMobile || isTablet) ? 2000 : 5000;
   const [sphere] = useState(() => buildSphere(starCount));
   const [ready, setReady] = useState(false);
 
@@ -51,7 +51,7 @@ const StarBackground = (props: any) => {
   }, []);
 
   useFrame((_state, delta) => {
-    if (!ref.current) return;
+    if (!ref.current || isMobile || isTablet) return; // Completely stop rotation on mobile/tablet for static background
     ref.current.rotation.x -= delta / 10;
     ref.current.rotation.y -= delta / 15;
   });

@@ -99,12 +99,11 @@ const Projects = () => {
       </div>
 
       {/* Grid */}
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <AnimatePresence mode="popLayout">
           {filteredProjects.map((project) => (
             <motion.div
               key={project.title}
-              layout
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.92 }}
@@ -173,7 +172,7 @@ const Projects = () => {
             </motion.div>
           ))}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </section>
   );
 };

@@ -105,8 +105,8 @@ export default function SplashScreen() {
               </div>
             </div>
 
-            <div className="flex flex-col items-center space-y-3">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-[0.2em] text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-blue-500 to-purple-600 uppercase animate-pulse">
+            <div className="flex flex-col items-center space-y-4 px-6 text-center">
+              <h1 className="text-lg sm:text-2xl md:text-3xl font-bold tracking-widest sm:tracking-[0.2em] text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-blue-500 to-purple-600 uppercase animate-pulse w-full max-w-[90vw]">
                 System Is Analyzing
               </h1>
               <div className="flex space-x-1">

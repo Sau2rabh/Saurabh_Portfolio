@@ -95,6 +95,9 @@ const GlowCard: React.FC<GlowCardProps> = ({
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Disable pointer tracking on mobile/tablet to save CPU/GPU cycles during scroll
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
     const syncPointer = (e: PointerEvent) => {
       const { clientX: x, clientY: y } = e;
       if (cardRef.current) {
@@ -131,10 +134,10 @@ const GlowCard: React.FC<GlowCardProps> = ({
     backgroundColor: 'var(--backdrop, transparent)',
     backgroundSize: 'calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)))',
     backgroundPosition: '50% 50%',
-    backgroundAttachment: 'fixed',
     border: 'var(--border-size) solid var(--backup-border)',
     position: 'relative',
     touchAction: 'none',
+    willChange: 'transform, opacity',
     ...(width !== undefined ? { width: typeof width === 'number' ? `${width}px` : width } : {}),
     ...(height !== undefined ? { height: typeof height === 'number' ? `${height}px` : height } : {}),
   };

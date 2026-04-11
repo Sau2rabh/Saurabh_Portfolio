@@ -9,17 +9,37 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 20) {
+            setIsScrolled(true);
+          } else {
+            setIsScrolled(false);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Scroll lock when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { name: 'About', href: '#about' },
@@ -100,7 +120,7 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className='fixed top-0 right-0 h-full w-[300px] bg-[#030014]/95 border-l border-white/10 z-999 md:hidden flex flex-col glass'
+              className='fixed top-0 right-0 h-full w-[300px] bg-[#030014]/95 border-l border-white/10 z-999 md:hidden flex flex-col overflow-y-auto glass'
             >
               {/* Sidebar Header */}
               <div className='flex items-center justify-between p-8 border-b border-white/5'>
