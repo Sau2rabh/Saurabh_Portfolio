@@ -33,13 +33,15 @@ const Contact = () => {
     const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '';
 
     emailjs
-      .sendForm(serviceId, templateId, formRef.current, publicKey)
+      .sendForm(serviceId, templateId, formRef.current, {
+        publicKey: publicKey,
+      })
       .then(() => {
         setSubmitStatus('success');
         formRef.current?.reset();
       })
       .catch((error) => {
-        console.error('Email send error:', error);
+        console.error('Email send error details:', error?.text || error?.message || error);
         setSubmitStatus('error');
       })
       .finally(() => {
@@ -129,13 +131,15 @@ const Contact = () => {
               onSubmit={handleSubmit}
               className='relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6'
             >
+              {/* Hidden field for EmailJS template {{title}} variable */}
+              <input type="hidden" name="title" value="Portfolio Message" />
               <div className='space-y-2'>
                 <label className='text-xs font-semibold uppercase tracking-widest text-gray-500 ml-1'>
                   Name
                 </label>
                 <input
                   type='text'
-                  name='user_name'
+                  name='name'
                   required
                   placeholder='Saurabh Anand'
                   className='w-full bg-slate-900/50 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-cyan-500/50 transition-colors placeholder:text-gray-700'
@@ -147,9 +151,9 @@ const Contact = () => {
                 </label>
                 <input
                   type='email'
-                  name='user_email'
+                  name='email'
                   required
-                  placeholder='[EMAIL_ADDRESS]'
+                  placeholder='your@email.com'
                   className='w-full bg-slate-900/50 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-cyan-500/50 transition-colors placeholder:text-gray-700'
                 />
               </div>
